@@ -21,7 +21,7 @@ const HangingBoard: React.FC = () => {
         let angularVelocity = 0;
         let currentAngle = 0.3;
         const gravity = 9.8;
-        const damping = 0.98;
+        const damping = 0.998;
 
         // 板のパラメータ
         const longSideLength = 2.0;
@@ -352,7 +352,10 @@ const HangingBoard: React.FC = () => {
             }
 
             currentAngle += angularVelocity * dt;
-// console.log(currentAngle)
+
+            // test osc
+            sendOSC(currentAngle);
+
             boardGroup.rotation.z = currentAngle;
         };
 
@@ -364,6 +367,22 @@ const HangingBoard: React.FC = () => {
 
             renderer.render(scene, camera);
         };
+
+        // osc関連
+        let osc_counter = 0;
+        const osc_interval = 4; // osc_intervalに1回だけ送信する。2025.12.07現在、2回に1回だと処理が間に合わない感じ。
+        const sendOSC = (angle: number) => {
+            osc_counter += 1;
+            if (osc_counter % osc_interval === 0) {
+                fetch('/api/osc', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ angle })
+                })
+            }
+        }
 
         init();
 
