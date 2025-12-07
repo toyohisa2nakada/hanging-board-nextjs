@@ -49,7 +49,7 @@ const HangingBoard: React.FC = () => {
         const init = () => {
             // シーンのセットアップ
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf0f0f0);
+            scene.background = new THREE.Color(0x808080);
 
             camera = new THREE.PerspectiveCamera(
                 50,
@@ -57,7 +57,7 @@ const HangingBoard: React.FC = () => {
                 0.1,
                 1000
             );
-            camera.position.set(0, 2, 6);
+            camera.position.set(3, 5, 3);
             camera.lookAt(0, 1.5, 0);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
